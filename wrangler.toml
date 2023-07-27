@@ -1,0 +1,3 @@
+name = "kororo-bot"
+main = "src/server.ts"
+compatibility_date = "2023-07-24"
