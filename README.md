@@ -9,6 +9,19 @@ Cloudflare Workers 上で作動します。
 
 サーバーに招待し、スラッシュコマンド `/kiro <おしゃべりの内容>` で呼び出します。
 
+```
+/kiro キロロはお酒飲む？
+キロロはお酒は飲めないキロ。
+
+/kiro キロロ6連射
+キロロ
+キロロ
+キロロ
+キロロ
+キロロ
+キロロ
+```
+
 ## Development
 
 ### コマンドの登録
@@ -20,7 +33,8 @@ ts-node src/register.ts
 
 ### ローカル環境で動かす
 
-`.dev.vars` に環境変数を記述した上で、以下のコマンドを実行します。
+[Discord App](https://discord.com/developers/docs/intro)、[OpenAI API](https://openai.com/blog/openai-api) にそれぞれ登録し、API キーを取得します。  
+また `.dev.vars` に環境変数を記述した上で、以下のコマンドを実行します。
 
 ```
 DISCORD_APPLICATION_ID = "<DISCORD_APPLICATION_ID>"

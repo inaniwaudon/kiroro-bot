@@ -43,11 +43,18 @@ app.post('/', async (c) => {
           (option: any) => option.name == 'content',
         ).value;
         try {
-          const gptResponse = await postToChatGpt(message, c.env.OPEN_API_KEY);
+          // response
+          const rapidFire = message.match(/(.+?)([0-9]+)連射/);
+          let response: string;
+          if (rapidFire) {
+            response = [...Array(parseInt(rapidFire[2]))].map((_) => rapidFire[1]).join('\n');
+          } else {
+            response = await postToChatGpt(message, c.env.OPEN_API_KEY);
+          }
           return c.json({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `> ${message}\n${gptResponse}`,
+              content: `> ${message}\n${response}`,
             },
           });
         } catch (e) {
