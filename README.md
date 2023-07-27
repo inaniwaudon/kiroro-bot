@@ -3,7 +3,7 @@
 キロロくんとおしゃべりする Discord Bot です。  
 Cloudflare Workers 上で作動します。
 
-![Discord 上での動作画面](sample.jpeg)
+![Discord 上での動作画面](sample.png)
 
 ## おしゃべりするには
 
