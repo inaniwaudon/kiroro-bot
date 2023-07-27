@@ -5,35 +5,35 @@ const token = process.env.DISCORD_TOKEN;
 const applicationId = process.env.DISCORD_APPLICATION_ID;
 
 if (!token) {
-	throw new Error('DISCORD_TOKEN is undefined.');
+  throw new Error('DISCORD_TOKEN is undefined.');
 }
 if (!applicationId) {
-	throw new Error('DISCORD_APPLICATION_ID is undefined.');
+  throw new Error('DISCORD_APPLICATION_ID is undefined.');
 }
 
 const registerCommands = async (url: string) => {
-	const response = await fetch(url, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bot ${token}`,
-		},
-		method: 'PUT',
-		body: JSON.stringify([KIRO_COMMAND]),
-	});
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bot ${token}`,
+    },
+    method: 'PUT',
+    body: JSON.stringify([KIRO_COMMAND]),
+  });
 
-	if (response.ok) {
-		console.log('Registered all commands');
-	} else {
-		console.error('Error registering commands');
-		const text = await response.text();
-		console.error(text);
-	}
-	return response;
+  if (response.ok) {
+    console.log('Registered all commands');
+  } else {
+    console.error('Error registering commands');
+    const text = await response.text();
+    console.error(text);
+  }
+  return response;
 };
 
 const registerGlobalCommands = async () => {
-	const url = `https://discord.com/api/v10/applications/${applicationId}/commands`;
-	await registerCommands(url);
+  const url = `https://discord.com/api/v10/applications/${applicationId}/commands`;
+  await registerCommands(url);
 };
 
 await registerGlobalCommands();

@@ -7,66 +7,66 @@ import { postToChatGpt } from './gpt';
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.get('/', async (c) => {
-	console.log(c);
-	return c.text(`Hello ${c.env!.DISCORD_APPLICATION_ID}`);
+  console.log(c);
+  return c.text(`Hello ${c.env!.DISCORD_APPLICATION_ID}`);
 });
 
 app.post('/', async (c) => {
-	// verify
-	const signature = c.req.header('x-signature-ed25519');
-	const timestamp = c.req.header('x-signature-timestamp');
-	const body = await c.req.text();
-	const isValidRequest =
-		signature &&
-		timestamp &&
-		verifyKey(body, signature, timestamp, c.env.DISCORD_PUBLIC_KEY as string);
-	if (!isValidRequest) {
-		return c.text('Bad request signature.', 401);
-	}
+  // verify
+  const signature = c.req.header('x-signature-ed25519');
+  const timestamp = c.req.header('x-signature-timestamp');
+  const body = await c.req.text();
+  const isValidRequest =
+    signature &&
+    timestamp &&
+    verifyKey(body, signature, timestamp, c.env.DISCORD_PUBLIC_KEY as string);
+  if (!isValidRequest) {
+    return c.text('Bad request signature.', 401);
+  }
 
-	const interaction = JSON.parse(body);
-	if (!interaction) {
-		return c.text('Bad request signature.', 401);
-	}
+  const interaction = JSON.parse(body);
+  if (!interaction) {
+    return c.text('Bad request signature.', 401);
+  }
 
-	// interact
-	if (interaction.type === InteractionType.PING) {
-		return c.json({
-			type: InteractionResponseType.PONG,
-		});
-	}
+  // interact
+  if (interaction.type === InteractionType.PING) {
+    return c.json({
+      type: InteractionResponseType.PONG,
+    });
+  }
 
-	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
-		switch (interaction.data.name.toLowerCase()) {
-			case KIRO_COMMAND.name.toLowerCase(): {
-				const message = interaction.data.options.find(
-					(option: any) => option.name == 'content',
-				).value;
-				try {
-					const gptResponse = await postToChatGpt(message, c.env.OPEN_API_KEY);
-					return c.json({
-						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-						data: {
-							content: `> ${message}\n${gptResponse}`,
-						},
-					});
-				} catch (e) {
-					console.error(e);
-					return c.json({
-						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-						data: {
-							content: 'OpenAI に嫌われちゃったキロ〜！！',
-						},
-					});
-				}
-			}
-			default:
-				return c.json({ error: 'Unknown Type' }, 400);
-		}
-	}
+  if (interaction.type === InteractionType.APPLICATION_COMMAND) {
+    switch (interaction.data.name.toLowerCase()) {
+      case KIRO_COMMAND.name.toLowerCase(): {
+        const message = interaction.data.options.find(
+          (option: any) => option.name == 'content',
+        ).value;
+        try {
+          const gptResponse = await postToChatGpt(message, c.env.OPEN_API_KEY);
+          return c.json({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: `> ${message}\n${gptResponse}`,
+            },
+          });
+        } catch (e) {
+          console.error(e);
+          return c.json({
+            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+            data: {
+              content: 'OpenAI に嫌われちゃったキロ〜！！',
+            },
+          });
+        }
+      }
+      default:
+        return c.json({ error: 'Unknown Type' }, 400);
+    }
+  }
 
-	console.error('Unknown Type');
-	return c.json({ error: 'Unknown Type' }, 400);
+  console.error('Unknown Type');
+  return c.json({ error: 'Unknown Type' }, 400);
 });
 
 app.fire();
