@@ -3,6 +3,8 @@
 キロロくんとおしゃべりする Discord Bot です。  
 Cloudflare Workers 上で作動します。
 
+![Discord 上での動作画面](sample.jpeg)
+
 ## おしゃべりするには
 
 サーバーに招待し、スラッシュコマンド `/kiro <おしゃべりの内容>` で呼び出します。
