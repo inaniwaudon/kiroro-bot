@@ -36,7 +36,7 @@ app.post('/', async (c) => {
     });
   }
 
-  const bannedUsernames = (c.env.BANNED_USERS ?? '').split(',');
+  const bannedUsernames = c.env.BANNED_USERS ? c.env.BANNED_USERS.split(',') : [];
 
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     switch (interaction.data.name.toLowerCase()) {
@@ -51,7 +51,10 @@ app.post('/', async (c) => {
 
           if (message.includes('BAN')) {
             // display banned users
-            response = `キロロ寿司と${bannedUsernames.join('と')}が嫌いキロ`;
+            response =
+              bannedUsernames.length > 0
+                ? `キロロ寿司と${bannedUsernames.join('と')}が嫌いキロ`
+                : 'キロロはみんなのこと大好きキロ〜';
           } else if (rapidFire) {
             // rapid fire
             response = [...Array(parseInt(rapidFire[2]))].map((_) => rapidFire[1]).join('\n');
