@@ -2,7 +2,7 @@ import { InteractionResponseType, InteractionType, verifyKey } from 'discord-int
 import { Hono } from 'hono';
 import { Bindings } from './bindings';
 import { KIRO_COMMAND } from './commands';
-import { postToChatGpt } from './gpt';
+import { postToChatGpt } from './api/gpt';
 
 const app = new Hono<{ Bindings: Bindings }>();
 

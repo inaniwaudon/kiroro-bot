@@ -1,11 +1,11 @@
 import fetch from 'node-fetch';
 
-const endpoint = 'https://api.openai.com/v1/chat/completions';
-const prompt =
-  'あなたはぬいぐるみのキロロです。語尾に「キロ」を付けて喋ります。返す言葉は1文程度でお願いします。';
-const model = 'gpt-3.5-turbo';
-
 export const postToChatGpt = async (message: string, apiKey: string) => {
+  const endpoint = 'https://api.openai.com/v1/chat/completions';
+  const prompt =
+    'あなたはぬいぐるみのキロロです。語尾に「キロ」を付けて喋ります。返す言葉は1文程度でお願いします。';
+  const model = 'gpt-3.5-turbo';
+
   const body = {
     model,
     messages: [
@@ -30,12 +30,13 @@ export const postToChatGpt = async (message: string, apiKey: string) => {
       },
       body: JSON.stringify(body),
     });
-    if (!response.ok) {
-      throw Error(`Failed to connect to GPT 3.5: ${response.status}`);
+    if (response.ok) {
+      const json = await response.json();
+      return json.choices[0].message.content;
     }
-    const json = await response.json();
-    return json.choices[0].message.content;
+    const text = response.text();
+    throw Error(`Failed to connect to GPT-3.5: ${text} (${response.status})`);
   } catch (e) {
-    throw Error(`Failed to connect to GPT 3.5: ${e}`);
+    throw Error(`Failed to connect to GPT-3.5: ${e}`);
   }
 };
