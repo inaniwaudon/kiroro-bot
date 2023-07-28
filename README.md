@@ -104,3 +104,41 @@ BAN されているユーザを確認するには、以下の通りにしゃべ�
 /kiro BANされてるユーザを教えて
 キロロ寿司とusernameが嫌いキロ
 ```
+
+### ワンピースのネタバレ
+
+ワンピースをいち早く知りたい友人のためにワンピースのネタバレ機能を実装しました。
+
+1. Cloudflare D1 に `kiroro-bot` という名称で DB を追加し、`Database ID` を取得します。
+
+2. 作成した DB に対して、以下のテーブルを作成します。
+    ```sql
+    CREATE TABLE onepiece(
+      id INTEGER,
+      content TEXT
+    );
+    ```
+
+3. ワンピースの情報をスクレイピングで取得し、Cloudflare D1 に追加します。
+    ```bash
+    export OPEN_API_KEY=<OPEN_API_KEY>
+    npm run onepiece
+    ```
+
+4. wrangle.toml に Cloudflare D1 の情報を追加します。
+
+    ```toml
+    [[ d1_databases ]]
+    binding = "DB"
+    database_name = "kiroro-bot"
+    database_id = ""
+    ```
+
+ネタバレを教えてもらうには、「ワンピース」を含めてしゃべりかけます。
+
+```
+/kiro キロロ、ワンピースの1087話好き？
+キロロがこっそり教えちゃうキロ……
+
+（1087 話のネタバレ）
+```

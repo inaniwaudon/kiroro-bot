@@ -1,0 +1,8 @@
+name = "kororo-bot"
+main = "src/server.ts"
+compatibility_date = "2023-07-24"
+
+[[ d1_databases ]]
+binding = "DB"
+database_name = "kiroro-bot"
+database_id = "<database_id>"

@@ -1,4 +1,7 @@
+import { D1Database } from '@cloudflare/workers-types';
+
 export type Bindings = {
+  DB: D1Database;
   DISCORD_APPLICATION_ID: string;
   DISCORD_PUBLIC_KEY: string;
   DISCORD_BOT_TOKEN: string;

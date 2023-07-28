@@ -17,6 +17,7 @@
 		"wrangler": "^3.0.0"
 	},
 	"dependencies": {
+		"@types/jsdom": "^21.1.1",
 		"@types/node-fetch": "^2.6.4",
 		"discord-interactions": "^3.4.0",
 		"hono": "^3.3.4",
