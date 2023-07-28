@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import { Bindings } from './bindings';
 import { KIRO_COMMAND } from './commands';
 import { postToChatGpt } from './api/gpt';
+import { createResponseMessage } from './message';
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -36,41 +37,15 @@ app.post('/', async (c) => {
     });
   }
 
-  const bannedUsernames = c.env.BANNED_USERS ? c.env.BANNED_USERS.split(',') : [];
-
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     switch (interaction.data.name.toLowerCase()) {
       case KIRO_COMMAND.name.toLowerCase(): {
-        const message = interaction.data.options.find(
-          (option: any) => option.name == 'content',
-        ).value;
         try {
-          // response
-          const rapidFire = message.match(/(.+?)([0-9]+)連射/);
-          let response: string;
-
-          if (message.includes('BAN')) {
-            // display banned users
-            response =
-              bannedUsernames.length > 0
-                ? `キロロ寿司と${bannedUsernames.join('と')}が嫌いキロ`
-                : 'キロロはみんなのこと大好きキロ〜';
-          } else if (rapidFire) {
-            // rapid fire
-            response = [...Array(parseInt(rapidFire[2]))].map((_) => rapidFire[1]).join('\n');
-          } else {
-            if (bannedUsernames.includes(interaction.member.user.username)) {
-              // called from a banned user
-              response = '心無い利用者に返す言葉はないキロ';
-            } else {
-              // gpt
-              response = await postToChatGpt(message, c.env.OPEN_API_KEY);
-            }
-          }
+          const response = await createResponseMessage(interaction, c.env);
           return c.json({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `> ${message}\n${response}`,
+              content: response,
             },
           });
         } catch (e) {
@@ -78,7 +53,7 @@ app.post('/', async (c) => {
           return c.json({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: 'OpenAI に嫌われちゃったキロ〜！！',
+              content: `キロロはお休み中キロＺｚｚ...\n${e}`,
             },
           });
         }

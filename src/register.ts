@@ -1,11 +1,11 @@
 import { KIRO_COMMAND } from './commands.js';
 import fetch from 'node-fetch';
 
-const token = process.env.DISCORD_TOKEN;
+const token = process.env.DISCORD_BOT_TOKEN;
 const applicationId = process.env.DISCORD_APPLICATION_ID;
 
 if (!token) {
-  throw new Error('DISCORD_TOKEN is undefined.');
+  throw new Error('DISCORD_BOT_TOKEN is undefined.');
 }
 if (!applicationId) {
   throw new Error('DISCORD_APPLICATION_ID is undefined.');

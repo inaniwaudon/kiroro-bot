@@ -1,10 +1,17 @@
 import fetch from 'node-fetch';
 
-export const postToChatGpt = async (message: string, apiKey: string) => {
+const MAX_MESSAGE_LENGTH = 30;
+const MAX_TOKENS = 40;
+
+export const postToChatGpt = async (messages: string[], apiKey: string) => {
   const endpoint = 'https://api.openai.com/v1/chat/completions';
   const prompt =
     'あなたはぬいぐるみのキロロです。語尾に「キロ」を付けて喋ります。返す言葉は1文程度でお願いします。';
   const model = 'gpt-3.5-turbo';
+  const userMessages = messages.map((message) => ({
+    role: 'user',
+    content: message.slice(0, MAX_MESSAGE_LENGTH),
+  }));
 
   const body = {
     model,
@@ -13,12 +20,9 @@ export const postToChatGpt = async (message: string, apiKey: string) => {
         role: 'system',
         content: prompt,
       },
-      {
-        role: 'user',
-        content: message.slice(0, 30),
-      },
+      ...userMessages,
     ],
-    max_tokens: 40,
+    max_tokens: MAX_TOKENS,
   };
 
   try {
