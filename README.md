@@ -34,8 +34,18 @@ $ brew install ngrok
 1. [Discord App](https://discord.com/developers/docs/intro) を登録し、以下の API キーを取得します。
     - General Information → Application ID, Public Key
     - Bot → Token
+
 2. Bot → Privileged Gateway Intents より `Message Content Intent` を有効にします。
+
 3. [OpenAI API](https://openai.com/blog/openai-api) に登録し、API キーを取得します。
+
+4. Cloudflare D1 に `kiroro-bot` という名称で DB を追加し、`Database ID` を取得します。
+
+5. `wrangler.example.toml` を `wrangler.toml` としてコピーし、`database_id` を先ほど取得した ID に置換します。
+    ```
+    cp wrangler.example.toml wrangler.toml
+    vi wrangler.toml
+    ```
 
 ### コマンドの登録
 
@@ -109,9 +119,7 @@ BAN されているユーザを確認するには、以下の通りにしゃべ�
 
 ワンピースをいち早く知りたい友人のためにワンピースのネタバレ機能を実装しました。
 
-1. Cloudflare D1 に `kiroro-bot` という名称で DB を追加し、`Database ID` を取得します。
-
-2. 作成した DB に対して、以下のテーブルを作成します。
+1. Cloudflare D1 のデータベース上に、以下のテーブルを作成します。
     ```sql
     CREATE TABLE onepiece(
       id INTEGER,
@@ -119,19 +127,10 @@ BAN されているユーザを確認するには、以下の通りにしゃべ�
     );
     ```
 
-3. ワンピースの情報をスクレイピングで取得し、Cloudflare D1 に追加します。
+2. 以下のコマンドを実行して、ワンピースの情報をスクレイピングで取得し、データベースに追加します。
     ```bash
     export OPEN_API_KEY=<OPEN_API_KEY>
     npm run onepiece
-    ```
-
-4. wrangle.toml に Cloudflare D1 の情報を追加します。
-
-    ```toml
-    [[ d1_databases ]]
-    binding = "DB"
-    database_name = "kiroro-bot"
-    database_id = ""
     ```
 
 ネタバレを教えてもらうには、「ワンピース」を含めてしゃべりかけます。

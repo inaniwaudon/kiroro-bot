@@ -1,26 +1,27 @@
 {
-	"name": "kiroro-bot",
-	"version": "0.0.0",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"register": "ts-node src/register.ts",
-		"format": "npx prettier --write src"
-	},
-	"devDependencies": {
-		"@cloudflare/workers-types": "^4.20230419.0",
-		"@types/node": "^20.4.5",
-		"prettier": "^3.0.0",
-		"typescript": "^5.0.4",
-		"wrangler": "^3.0.0"
-	},
-	"dependencies": {
-		"@types/jsdom": "^21.1.1",
-		"@types/node-fetch": "^2.6.4",
-		"discord-interactions": "^3.4.0",
-		"hono": "^3.3.4",
-		"node-fetch": "^2.6.12"
-	}
+  "name": "kiroro-bot",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "format": "npx prettier --write src",
+    "register": "ts-node src/register.ts",
+    "onepiece": "ts-node src/onepiece.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230419.0",
+    "@types/node": "^20.4.5",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.4",
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "@types/jsdom": "^21.1.1",
+    "@types/node-fetch": "^2.6.4",
+    "discord-interactions": "^3.4.0",
+    "hono": "^3.3.4",
+    "node-fetch": "^2.6.12"
+  }
 }
