@@ -1,9 +1,14 @@
-export const KIRO_COMMAND = {
+import {
+  ApplicationCommandOptionType,
+  RESTPostAPIChatInputApplicationCommandsJSONBody,
+} from 'discord-api-types/v10';
+
+export const KIRO_COMMAND: RESTPostAPIChatInputApplicationCommandsJSONBody = {
   name: 'kiro',
   description: 'キロロとお話するキロ〜',
   options: [
     {
-      type: 3,
+      type: ApplicationCommandOptionType.String,
       name: 'content',
       description: 'キロキロ',
       required: true,
