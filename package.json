@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@types/node-fetch": "^2.6.4",
+		"discord-api-types": "^0.37.50",
 		"discord-interactions": "^3.4.0",
 		"hono": "^3.3.4",
 		"node-fetch": "^2.6.12"

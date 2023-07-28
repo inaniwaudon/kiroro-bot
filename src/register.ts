@@ -1,14 +1,11 @@
+import { getApplicationId } from './util.js';
 import { KIRO_COMMAND } from './commands.js';
 import fetch from 'node-fetch';
 
 const token = process.env.DISCORD_BOT_TOKEN;
-const applicationId = process.env.DISCORD_APPLICATION_ID;
 
 if (!token) {
   throw new Error('DISCORD_BOT_TOKEN is undefined.');
-}
-if (!applicationId) {
-  throw new Error('DISCORD_APPLICATION_ID is undefined.');
 }
 
 const registerCommands = async (url: string) => {
@@ -32,7 +29,7 @@ const registerCommands = async (url: string) => {
 };
 
 const registerGlobalCommands = async () => {
-  const url = `https://discord.com/api/v10/applications/${applicationId}/commands`;
+  const url = `https://discord.com/api/v10/applications/${getApplicationId(token)}/commands`;
   await registerCommands(url);
 };
 
