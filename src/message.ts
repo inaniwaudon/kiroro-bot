@@ -1,4 +1,4 @@
-import { getLatestDiscordMessage } from './api/discord';
+import { getLatestDiscordMessageContents } from './api/discord';
 import { postToChatGpt } from './api/gpt';
 import { Bindings } from './bindings';
 
@@ -33,15 +33,15 @@ export const createResponseMessage = async (interaction: any, env: Bindings) => 
     else {
       let latestContents: string[] = [];
       if (interaction.channel_id) {
-        const latestMessages = await getLatestDiscordMessage(
-          interaction.channel_id,
-          10,
-          env.DISCORD_BOT_TOKEN,
-        );
-        latestContents = latestMessages
+        latestContents = (
+          await getLatestDiscordMessageContents(
+            interaction.channel_id,
+            PAST_CONVERSATION_LENGTH * 5,
+            env,
+          )
+        )
           .slice(0, PAST_CONVERSATION_LENGTH)
-          .reverse()
-          .map((message) => message.content);
+          .reverse();
       }
       response = await postToChatGpt([...latestContents, input], env.OPEN_API_KEY);
     }

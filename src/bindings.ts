@@ -4,6 +4,7 @@ export type Bindings = {
   DISCORD_BOT_TOKEN: string;
   DISCORD_TEST_GUILD_ID: string;
   OPEN_API_KEY: string;
+  KIRORO_ID: string;
   BANNED_USERS?: string;
 };
 
