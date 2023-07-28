@@ -1,27 +1,8 @@
 import fetch from 'node-fetch';
+import { APIMessage, MessageType } from 'discord-api-types/v10';
 import { Bindings } from '../bindings';
 
 const discordEndpoint = 'https://discord.com/api/v10';
-const DEAFULT_MESSAGE_TYPE = 0;
-
-type snowflake = string;
-
-interface DiscordMessage {
-  id: snowflake;
-  channel_id: snowflake;
-  author: DiscordUser;
-  content: string;
-  timestamp: string;
-  type: number;
-}
-
-interface DiscordUser {
-  id: snowflake;
-  username: string;
-  discriminator: string;
-  global_name: string;
-  bot: boolean;
-}
 
 export const getLatestDiscordMessageContents = async (
   channelId: string,
@@ -37,11 +18,11 @@ export const getLatestDiscordMessageContents = async (
       },
     });
     if (response.ok) {
-      const messages = (await response.json()) as DiscordMessage[];
+      const messages: APIMessage[] = await response.json();
       const contents: string[] = [];
       for (const message of messages) {
         // sent by other members
-        if (!message.author.bot && message.type === DEAFULT_MESSAGE_TYPE) {
+        if (!message.author.bot && message.type === MessageType.Default) {
           contents.push(message.content);
         }
         // via slash command of kiroro
