@@ -52,7 +52,6 @@ $ brew install ngrok
 環境変数を登録した上でコマンドを実行し、Slash commands を登録します。
 
 ```
-$ export DISCORD_APPLICATION_ID=<DISCORD_APPLICATION_ID>
 $ export DISCORD_BOT_TOKEN=<DISCORD_BOT_TOKEN>
 $ ts-node src/register.ts
 ```
@@ -63,7 +62,6 @@ $ ts-node src/register.ts
     `KIRORO_ID` は、開発者モードを有効にした状態で、[右クリック →「ユーザー ID をコピー](https://support.discord.com/hc/ja/articles/206346498-%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC-%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC-%E3%83%A1%E3%83%83%E3%82%BB%E3%83%BC%E3%82%B8ID%E3%81%AF%E3%81%A9%E3%81%93%E3%81%A7%E8%A6%8B%E3%81%A4%E3%81%91%E3%82%89%E3%82%8C%E3%82%8B-)」から取得できます。
 
     ```
-    DISCORD_APPLICATION_ID = "<DISCORD_APPLICATION_ID>"
     DISCORD_PUBLIC_KEY = "<DISCORD_PUBLIC_KEY>"
     DISCORD_BOT_TOKEN = "<DISCORD_TOKEN>"
     OPEN_API_KEY = "<OPEN_API_KEY>"
@@ -90,7 +88,6 @@ $ ts-node src/register.ts
 1. 以下のコマンドを実行し、上記と同じ環境変数を登録した上で、デプロイします。
 
     ```bash
-    $ wrangler secret put DISCORD_APPLICATION_ID
     $ wrangler secret put DISCORD_PUBLIC_KEY
     ...
     $ npm run deploy
