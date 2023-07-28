@@ -4,6 +4,7 @@ export type Bindings = {
   DISCORD_TOKEN: string;
   DISCORD_TEST_GUILD_ID: string;
   OPEN_API_KEY: string;
+  BANNED_USERS?: string;
 };
 
 declare global {

@@ -36,6 +36,8 @@ app.post('/', async (c) => {
     });
   }
 
+  const bannedUsernames = (c.env.BANNED_USERS ?? '').split(',');
+
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     switch (interaction.data.name.toLowerCase()) {
       case KIRO_COMMAND.name.toLowerCase(): {
@@ -46,10 +48,21 @@ app.post('/', async (c) => {
           // response
           const rapidFire = message.match(/(.+?)([0-9]+)連射/);
           let response: string;
-          if (rapidFire) {
+
+          if (message.includes('BAN')) {
+            // display banned users
+            response = `キロロ寿司と${bannedUsernames.join('と')}が嫌いキロ`;
+          } else if (rapidFire) {
+            // rapid fire
             response = [...Array(parseInt(rapidFire[2]))].map((_) => rapidFire[1]).join('\n');
           } else {
-            response = await postToChatGpt(message, c.env.OPEN_API_KEY);
+            if (bannedUsernames.includes(interaction.member.user.username)) {
+              // called from a banned user
+              response = '心無い利用者に返す言葉はないキロ';
+            } else {
+              // gpt
+              response = await postToChatGpt(message, c.env.OPEN_API_KEY);
+            }
           }
           return c.json({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
