@@ -3,6 +3,8 @@
 キロロくんとおしゃべりする Discord Bot です。
 Cloudflare Workers 上で作動します。
 
+- 解説記事：[スラッシュコマンドでぬいぐるみとおしゃべりする Discord Bot](https://zenn.dev/inaniwaudon/articles/2ce2643abc9e08)
+
 ![Discord 上での動作画面](sample.png)
 
 ## おしゃべりするには
