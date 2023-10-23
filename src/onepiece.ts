@@ -2,8 +2,8 @@ import { execSync } from 'child_process';
 import fetch from 'node-fetch';
 import { summarizeOnepiece } from './api/gpt';
 
-const startChapter = 1001;
-const endChapter = 1089;
+const startChapter = 1090;
+const endChapter = 1090;
 
 for (let chapter = startChapter; chapter <= endChapter; chapter++) {
   let content = '';

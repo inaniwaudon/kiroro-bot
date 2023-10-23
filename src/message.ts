@@ -57,6 +57,11 @@ export const createResponseMessage = async (interaction: any, env: Bindings) => 
       throw new Error(`Failed to load the summary of "one piece": ${e}`);
     }
   }
+  // execute javascript
+  else if (input.includes('実行') && input.includes(':')) {
+    const code = input.slice(input.indexOf(':')).replace(/fetch/, '');
+    return Function(code)();
+  }
   // gpt
   else {
     let latestContents: string[] = [];
