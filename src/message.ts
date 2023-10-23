@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import { getLatestDiscordMessageContents } from './api/discord';
 import { chatGpt, summarizeOnepiece } from './api/gpt';
+import { subjects } from './subjects';
 import { Bindings } from './bindings';
 import { D1PreparedStatement } from '@cloudflare/workers-types';
 
@@ -30,6 +31,11 @@ export const createResponseMessage = async (interaction: any, env: Bindings) => 
   // rapid fire
   else if (rapidFire) {
     response = [...Array(parseInt(rapidFire[2]))].map((_) => rapidFire[1]).join('\n');
+  }
+  // stop taking courses
+  else if (input.includes('履修')) {
+    const subject = subjects[Math.floor(Math.random() * (subjects.length - 1))];
+    response = `キロ〜キロ〜 履修切るキロ〜〜 ${subject}をきっちゃうキロ〜〜`;
   }
   // one piece
   else if (input.includes('ワンピース')) {
